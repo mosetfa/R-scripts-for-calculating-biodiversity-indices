@@ -1,0 +1,40 @@
+Species<-read.csv2("D:/moste/OneDrive/Bureau/SPECIES.csv", row.names = "SITE")
+Species<-Species[,1:8]
+names(Species)
+print(Species)
+dim(Species)
+abundance<-sum(Species[1, ], na.rm = TRUE)
+abundance
+sum(Species[7, ], na.rm = TRUE)
+AB <- rowSums(Species, na.rm = TRUE)
+AB
+sum(Species[1, ] > 0, na.rm = TRUE)
+sum(Species[2, ] > 0, na.rm = TRUE)
+Richness <- rowSums(Species > 0, na.rm = TRUE)
+Richness
+prop <- Species / AB
+prop
+H <- -rowSums(prop * log(prop), na.rm = TRUE)
+H
+library(vegan)
+H <- diversity(Species)
+H
+simp <- diversity(Species, "simpson")
+simp
+invsimp <- diversity(Species, "inv")
+invsimp
+Dmax <- 1-(1/S)
+Dmax
+ED <- simp/Dmax
+ED
+S <- specnumber(Species)
+S
+E <- H/log(S)
+E
+Hmax<-log(S)
+pairs(cbind(H, Hmax, E, Richness, average_richness), pch="+", col="blue")
+data(BCI, BCI.env)
+(alpha <- with(BCI.env, tapply(diversity(BCI), Stream, mean))) # average
+(gamma <- with(BCI.env, diversity(BCI, groups=Stream)))
+gamma-alpha
+gamma/alpha - 1
